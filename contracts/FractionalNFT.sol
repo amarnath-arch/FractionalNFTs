@@ -136,6 +136,7 @@ contract FractionalNFT is ERC20, Ownable, ERC721Holder{
         require(_nftCollection != address(0), "Address Should not be a Zero Address");
         require(IERC721(_nftCollection).ownerOf(tokenId) == msg.sender ,
                  "Not Authorised");
+        require(fractionalNFTAmount <= __totalSupply, "Not enough Supply of the tokens");
 
         // logic 
 
@@ -243,7 +244,7 @@ contract FractionalNFT is ERC20, Ownable, ERC721Holder{
         uint256 _curatorFee = ((itemForSale[_nftContract][_tokenId].price).mul(curatorFee)).div(100);
 
         toReedeem = (toReedeem.sub(_curatorFee)).div(_amount);
-
+        __totalSupply = __totalSupply.sub(_amount);
         _burn(msg.sender, _amount);
 
         payable(msg.sender).transfer(toReedeem);
