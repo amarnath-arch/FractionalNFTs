@@ -15,6 +15,10 @@ module.exports = {
     goerli:{
       url: GOERLI_RPC_URL,
       accounts: PRIVATE_KEY.split(',')
+    },
+    mumbai:{
+      url: `https://polygon-mumbai.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
+      accounts: PRIVATE_KEY.split(','),
     }
   }
 };

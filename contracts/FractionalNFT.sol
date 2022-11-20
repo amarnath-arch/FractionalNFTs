@@ -31,6 +31,7 @@ contract FractionalNFT is ERC20, Ownable, ERC721Holder{
     // state variables
     uint256 private __totalSupply;
     uint256 public curatorFee;
+    uint256 decimals =18;
 
 
     // structs
@@ -48,9 +49,9 @@ contract FractionalNFT is ERC20, Ownable, ERC721Holder{
         uint256 _totalSupply,
         uint256 _curatorFee
     ) ERC20("Fractional NFT",_symbol){
-        __totalSupply = _totalSupply;
+        __totalSupply = _totalSupply * 10 ** decimals;
         curatorFee = _curatorFee;
-        _mint(msg.sender,1000000000);
+        _mint(msg.sender,1000000000 * 10 ** decimals);
     }
 
 
@@ -139,6 +140,7 @@ contract FractionalNFT is ERC20, Ownable, ERC721Holder{
         require(fractionalNFTAmount <= __totalSupply, "Not enough Supply of the tokens");
 
         // logic 
+        fractionalNFTAmount = fractionalNFTAmount.mul(10 ** 18);
 
         // fetch the nft
         IERC721(_nftCollection).safeTransferFrom(msg.sender, address(this), tokenId);
@@ -240,6 +242,7 @@ contract FractionalNFT is ERC20, Ownable, ERC721Holder{
         require(itemForSale[_nftContract][_tokenId].canReedeem , "Redemption not available!!!");
 
         // logic
+        _amount = _amount.mul(10 ** decimals);
         uint256 toReedeem = (itemForSale[_nftContract][_tokenId].price);
         uint256 _curatorFee = ((itemForSale[_nftContract][_tokenId].price).mul(curatorFee)).div(100);
 

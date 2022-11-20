@@ -18,6 +18,10 @@ const main = async()=>{
 
     const balance = await fractionalNFT.balanceOf(deployer.address);
     console.log(balance.toString());
+
+    await token.connect(deployer).safeMint(deployer.address,'1');
+    await token.connect(deployer).setApprovalForAll(fractionalNFT.address,true);
+    await fractionalNFT.connect(deployer).fractionalize(token.address,'1','1000000');
 }
 
 
